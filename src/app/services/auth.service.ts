@@ -6,6 +6,7 @@ import firebase from 'firebase/compat';
   providedIn: 'root',
 })
 export class AuthService {
+  loggedIn = "notLoggedIn";
   constructor(
     public afAuth: AngularFireAuth // Inject Firebase auth service
   ) {}
@@ -17,8 +18,9 @@ export class AuthService {
   async AuthLogin(provider: firebase.auth.AuthProvider | GoogleAuthProvider) {
     try {
       const result = await this.afAuth
-        .signInWithPopup(provider);
+        .signInWithPopup(provider).then(() => this.loggedIn = "logged In!");
       console.log('You have been successfully logged in!');
+
     } catch (error) {
       console.log(error);
     }
