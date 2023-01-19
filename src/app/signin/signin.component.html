@@ -1,6 +1,12 @@
 <p>signin works!</p>
-<div class="formGroup">
-    <button type="button" (click)="authService.GoogleAuth()">
-      Log in with Google {{ authService.loggedIn }}
+<div class="signIn" *ngIf="!loggedIn.loggedIn">
+    <button type="button" (click)="doSignIn()" >
+      Log in with Google
+    </button>
+  </div>
+
+  <div class="signOut" *ngIf="loggedIn.loggedIn">
+    <button type="button" (click)="doSignOut()" >
+      Log out
     </button>
   </div>
