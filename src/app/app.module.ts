@@ -7,6 +7,8 @@ import { SigninComponent } from './signin/signin.component';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { DataService } from './services/data.service';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 @NgModule({
   declarations: [
@@ -16,9 +18,10 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
