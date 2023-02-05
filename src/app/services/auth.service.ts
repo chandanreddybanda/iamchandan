@@ -3,13 +3,15 @@ import { GoogleAuthProvider } from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat';
 import { AuthResult } from '../pojo/pojo';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(
-    public afAuth: AngularFireAuth // Inject Firebase auth service
+    public afAuth: AngularFireAuth, // Inject Firebase auth service
+    public dataService: DataService
   ) { }
   // Sign in with Google
   GoogleAuth(login: string) {
@@ -29,7 +31,10 @@ export class AuthService {
   async AuthLogin(provider: firebase.auth.AuthProvider | GoogleAuthProvider) {
     try {
       const result = await this.afAuth
-        .signInWithPopup(provider);
+        .signInWithPopup(provider).then((res) => {
+          this.dataService.upsertUser(res.user);
+          return res;
+        });
       console.log('You have been successfully logged in! with user name ' + result.user?.displayName);
       return { loggedIn: true, displayName: result.user?.displayName, error: null, user: result.user } as AuthResult;
     } catch (error) {

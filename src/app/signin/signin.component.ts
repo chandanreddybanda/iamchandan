@@ -11,9 +11,7 @@ export class SigninComponent implements OnInit {
   constructor(public authService: AuthService, public dataService: DataService) {
   }
   loggedIn = {} as AuthResult;
-  ngOnInit() {
-    this.dataService.GoogleDatabase();
-  }
+  ngOnInit() { }
   doSignIn() {
     this.authService.GoogleAuth('login').then(ans => this.loggedIn = ans);
   }
