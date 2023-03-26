@@ -2,12 +2,18 @@ import { AuthResult } from './../pojo/pojo';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
+
+import { timer } from 'rxjs';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
 })
 export class SigninComponent implements OnInit {
+  primeList: string = '';
+  n = 2;
+  stop = false;
   constructor(public authService: AuthService, public dataService: DataService) {
   }
   loggedIn = {} as AuthResult;
@@ -17,5 +23,26 @@ export class SigninComponent implements OnInit {
   }
   doSignOut() {
     this.authService.GoogleAuth('logout').then(ans => this.loggedIn = ans);
+  }
+  async doit() {
+    this.stop = false;
+    while (!this.stop) {
+      await timer(1).pipe(take(1)).toPromise();
+      let bl = true;
+
+      for (let i = 2; i * i <= this.n && bl; i++)
+        if (this.n % i == 0)
+          bl = false;
+
+      if (bl) this.primeList += this.n.toString() + ',';
+      this.n++;
+    }
+  }
+  dontDoit() {
+    this.stop = true;
+  }
+  clear() {
+    this.primeList = '';
+    this.n = 2;
   }
 }
