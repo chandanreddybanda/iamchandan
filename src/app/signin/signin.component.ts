@@ -12,7 +12,8 @@ import { take } from 'rxjs/operators';
 })
 export class SigninComponent implements OnInit {
   primeList: string = '';
-  n = 2;
+  N = 100000000000000;
+  n = this.N;
   stop = false;
   constructor(public authService: AuthService, public dataService: DataService) {
   }
@@ -43,6 +44,6 @@ export class SigninComponent implements OnInit {
   }
   clear() {
     this.primeList = '';
-    this.n = 2;
+    this.n = this.N;
   }
 }
